@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Word Families Reading Practice</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream:#F5F2E8;--teal:#6BBFB5;--teal-dark:#4A9E94;--teal-light:#A8D8D3;
+  --coral:#E8756A;--coral-light:#F0A098;--yellow:#FFC857;--yellow-dark:#E5A820;
+  --charcoal:#2D3748;--gray:#718096;--success:#68D391;--error-mark:#FC8181;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:12px;overflow-x:hidden;}
+.app-wrapper{width:100%;max-width:1000px;position:relative;z-index:1;}
+.screen{display:none;} .screen.active{display:block;}
+.card{background:var(--cream);border-radius:20px;padding:20px 22px;box-shadow:0 6px 24px rgba(0,0,0,0.2);margin-bottom:14px;}
+.card-title{font-family:'Fredoka',sans-serif;font-size:1.1rem;color:var(--teal-dark);margin-bottom:12px;}
+.btn{padding:12px 28px;border:none;border-radius:50px;font-family:'Fredoka',sans-serif;font-size:1.1rem;font-weight:600;cursor:pointer;transition:all 0.2s;touch-action:manipulation;}
+.btn-primary{background:var(--teal);color:white;box-shadow:0 4px 15px rgba(107,191,181,0.4);}
+.btn-primary:hover{background:var(--teal-dark);transform:translateY(-2px);}
+.btn-coral{background:var(--coral);color:white;}
+.btn-coral:hover{background:#d4665b;transform:translateY(-2px);}
+.btn-secondary{background:transparent;color:rgba(255,255,255,0.6);border:2px solid rgba(255,255,255,0.2);}
+.btn-secondary:hover{background:rgba(255,255,255,0.1);color:white;}
+.back-btn{background:rgba(255,255,255,0.1);border:none;color:white;cursor:pointer;font-size:1rem;padding:8px 14px;border-radius:12px;transition:all 0.2s;font-family:'Nunito',sans-serif;}
+.back-btn:hover{background:rgba(255,255,255,0.2);}
+.screen-header{display:flex;align-items:center;gap:12px;margin-bottom:20px;}
+.screen-header h2{font-family:'Fredoka',sans-serif;font-size:1.7rem;color:white;flex:1;}
+.toggle-btn{padding:7px 14px;border-radius:50px;border:2px solid var(--teal-light);background:white;color:var(--gray);font-family:'Fredoka',sans-serif;font-size:0.88rem;font-weight:600;cursor:pointer;transition:all 0.2s;touch-action:manipulation;}
+.toggle-btn.active{background:var(--teal);border-color:var(--teal);color:white;}
+.toggle-btn:hover:not(.active){border-color:var(--teal);color:var(--teal-dark);}
+.toggle-group{display:flex;flex-wrap:wrap;gap:7px;}
+.form-input{width:100%;padding:12px 16px;border:2px solid var(--teal-light);border-radius:12px;font-family:'Nunito',sans-serif;font-size:1.1rem;margin-bottom:12px;outline:none;background:white;}
+.form-input:focus{border-color:var(--teal);}
+
+/* PROFILE */
+.app-title{font-family:'Fredoka',sans-serif;font-size:2rem;font-weight:700;color:white;margin-bottom:4px;text-shadow:0 2px 20px rgba(107,191,181,0.5);text-align:center;}
+.app-subtitle{font-size:0.9rem;color:var(--teal-light);margin-bottom:22px;font-weight:600;text-align:center;}
+.profiles-grid{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-bottom:20px;}
+.profile-card{background:var(--cream);border-radius:18px;padding:18px 22px;min-width:130px;cursor:pointer;transition:all 0.2s;border:3px solid transparent;box-shadow:0 4px 16px rgba(0,0,0,0.2);position:relative;text-align:center;touch-action:manipulation;}
+.profile-card:hover{transform:translateY(-4px);border-color:var(--teal);}
+.profile-name{font-family:'Fredoka',sans-serif;font-size:1.3rem;color:var(--charcoal);}
+.profile-meta{font-size:0.78rem;color:var(--gray);margin-top:4px;}
+.profile-delete{position:absolute;top:6px;right:8px;background:none;border:none;color:var(--gray);cursor:pointer;font-size:13px;opacity:0.4;padding:8px;}
+.profile-delete:hover{opacity:1;color:var(--coral);}
+.add-profile-card{background:rgba(107,191,181,0.12);border:3px dashed var(--teal);border-radius:18px;padding:18px 22px;min-width:130px;cursor:pointer;transition:all 0.2s;display:flex;flex-direction:column;align-items:center;gap:6px;}
+.add-profile-card:hover{background:rgba(107,191,181,0.22);transform:translateY(-4px);}
+.add-profile-card span{font-family:'Fredoka',sans-serif;font-size:1rem;color:var(--teal-light);}
+.settings-btn{position:absolute;top:0;right:0;background:rgba(255,255,255,0.1);border:none;color:var(--teal-light);cursor:pointer;font-size:1.3rem;padding:8px 12px;border-radius:12px;transition:all 0.2s;}
+.settings-btn:hover{background:rgba(255,255,255,0.2);color:white;}
+
+/* SETUP */
+.setup-screen{max-width:680px;margin:0 auto;}
+.vowel-block{border-radius:16px;padding:14px 16px;margin-bottom:10px;}
+.vowel-block-a{background:#fff5f5;border:2px solid #fc8181;}
+.vowel-block-e{background:#ebf8ff;border:2px solid #63b3ed;}
+.vowel-block-i{background:#f0fff4;border:2px solid #68d391;}
+.vowel-block-o{background:#fffaf0;border:2px solid #f6ad55;}
+.vowel-block-u{background:#faf5ff;border:2px solid #b794f4;}
+.vowel-block-header{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.vowel-block-title{font-family:'Fredoka',sans-serif;font-size:1.1rem;font-weight:700;flex:1;}
+.vowel-a .vowel-block-title,.vowel-block-a .vowel-block-title{color:#c53030;}
+.vowel-block-e .vowel-block-title{color:#2b6cb0;}
+.vowel-block-i .vowel-block-title{color:#276749;}
+.vowel-block-o .vowel-block-title{color:#975a16;}
+.vowel-block-u .vowel-block-title{color:#553c9a;}
+.family-chip{display:inline-flex;align-items:center;padding:5px 12px;border-radius:20px;font-family:'Fredoka',sans-serif;font-size:0.9rem;font-weight:700;cursor:pointer;border:2px solid #ddd;background:white;color:var(--gray);transition:all 0.18s;touch-action:manipulation;margin:3px;}
+.family-chip.sel-a{background:#fff5f5;color:#c53030;border-color:#fc8181;}
+.family-chip.sel-e{background:#ebf8ff;color:#2b6cb0;border-color:#63b3ed;}
+.family-chip.sel-i{background:#f0fff4;color:#276749;border-color:#68d391;}
+.family-chip.sel-o{background:#fffaf0;color:#975a16;border-color:#f6ad55;}
+.family-chip.sel-u{background:#faf5ff;color:#553c9a;border-color:#b794f4;}
+.sel-all-btn{font-size:0.72rem;padding:3px 10px;border-radius:20px;border:1.5px solid #ccc;background:white;cursor:pointer;font-family:'Fredoka',sans-serif;color:var(--gray);transition:all 0.15s;}
+.sel-all-btn:hover{border-color:var(--teal);color:var(--teal-dark);}
+.clinical-note{background:rgba(107,191,181,0.1);border-left:4px solid var(--teal);border-radius:0 12px 12px 0;padding:10px 14px;font-size:0.82rem;color:var(--teal-dark);margin-top:10px;font-style:italic;}
+.toggle-switch{position:relative;width:48px;height:26px;flex-shrink:0;}
+.toggle-switch input{opacity:0;width:0;height:0;}
+.toggle-track{position:absolute;top:0;left:0;right:0;bottom:0;background:#ddd;border-radius:34px;cursor:pointer;transition:0.3s;}
+.toggle-track::before{content:'';position:absolute;width:20px;height:20px;left:3px;top:3px;background:white;border-radius:50%;transition:0.3s;box-shadow:0 2px 4px rgba(0,0,0,0.2);}
+.toggle-switch input:checked + .toggle-track{background:var(--teal);}
+.toggle-switch input:checked + .toggle-track::before{transform:translateX(22px);}
+.switch-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(0,0,0,0.06);}
+.switch-row:last-child{border-bottom:none;}
+.switch-label{font-weight:700;color:var(--charcoal);font-size:0.95rem;}
+.switch-note{font-size:0.78rem;color:var(--gray);margin-top:2px;}
+
+/* SESSION */
+.reading-card{background:var(--cream);border-radius:20px;min-height:270px;display:flex;align-items:center;justify-content:center;position:relative;margin-bottom:14px;box-shadow:0 8px 28px rgba(0,0,0,0.25);flex-direction:column;gap:6px;}
+.reading-word{font-family:'Fredoka',sans-serif;font-size:clamp(2.4rem,8vw,5.5rem);font-weight:700;color:var(--charcoal);text-align:center;padding:20px 32px;line-height:1.1;transition:opacity 0.15s ease,transform 0.15s ease;}
+.family-tag{font-family:'Fredoka',sans-serif;font-size:1rem;font-weight:700;padding:4px 16px;border-radius:20px;letter-spacing:0.5px;}
+.family-tag-a{background:#fff5f5;color:#c53030;border:2px solid #fc8181;}
+.family-tag-e{background:#ebf8ff;color:#2b6cb0;border:2px solid #63b3ed;}
+.family-tag-i{background:#f0fff4;color:#276749;border:2px solid #68d391;}
+.family-tag-o{background:#fffaf0;color:#975a16;border:2px solid #f6ad55;}
+.family-tag-u{background:#faf5ff;color:#553c9a;border:2px solid #b794f4;}
+.word-counter{position:absolute;top:14px;left:50%;transform:translateX(-50%);font-size:0.78rem;color:var(--teal-dark);font-weight:700;background:rgba(107,191,181,0.2);padding:4px 14px;border-radius:20px;}
+.session-stats{display:flex;gap:10px;margin-bottom:14px;justify-content:center;flex-wrap:wrap;}
+.stat-badge{background:rgba(255,255,255,0.1);border-radius:20px;padding:5px 14px;color:white;font-size:0.85rem;font-weight:700;display:flex;align-items:center;gap:5px;}
+.stat-badge.timer{background:rgba(232,117,106,0.25);color:var(--coral-light);font-size:1rem;}
+.stat-badge.coins{background:rgba(255,200,87,0.2);color:var(--yellow);}
+.adult-panel{background:rgba(0,0,0,0.4);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.1);border-radius:18px;padding:18px;box-shadow:0 4px 20px rgba(0,0,0,0.3);}
+.panel-label{font-size:0.72rem;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,0.35);margin-bottom:12px;font-weight:700;}
+.main-controls{display:grid;grid-template-columns:1fr 2fr 1fr;gap:10px;margin-bottom:12px;}
+.btn-wrong{background:rgba(252,129,129,0.2);color:var(--error-mark);border:2px solid rgba(252,129,129,0.35);border-radius:16px;font-family:'Fredoka',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;transition:all 0.15s;padding:18px 8px;display:flex;flex-direction:column;align-items:center;gap:4px;touch-action:manipulation;}
+.btn-wrong:active{transform:scale(0.95);}
+.btn-next{background:rgba(107,191,181,0.25);color:var(--teal-light);border:2px solid rgba(107,191,181,0.4);border-radius:16px;font-family:'Fredoka',sans-serif;font-size:1.3rem;font-weight:700;cursor:pointer;transition:all 0.15s;padding:18px 8px;display:flex;flex-direction:column;align-items:center;gap:4px;touch-action:manipulation;}
+.btn-next:active{transform:scale(0.96);}
+.btn-undo-small{background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.45);border:2px solid rgba(255,255,255,0.1);border-radius:16px;font-family:'Fredoka',sans-serif;font-size:0.85rem;font-weight:600;cursor:pointer;transition:all 0.15s;padding:18px 8px;display:flex;flex-direction:column;align-items:center;gap:4px;}
+.btn-undo-small:hover{background:rgba(255,255,255,0.15);color:white;}
+.btn-icon{font-size:1.6rem;}
+.btn-end-trial{width:100%;background:rgba(232,117,106,0.15);color:rgba(232,117,106,0.7);border:1px solid rgba(232,117,106,0.2);border-radius:12px;font-family:'Fredoka',sans-serif;font-size:0.9rem;font-weight:600;cursor:pointer;padding:8px;transition:all 0.15s;}
+.btn-end-trial:hover{background:rgba(232,117,106,0.25);color:var(--coral-light);}
+.stop-sign{display:none;text-align:center;margin-bottom:14px;}
+.stop-sign.visible{display:block;}
+.stop-sign-inner{display:inline-block;background:var(--coral);color:white;font-family:'Fredoka',sans-serif;font-size:1.6rem;font-weight:700;letter-spacing:2px;padding:14px 28px;border-radius:14px;box-shadow:0 0 0 4px rgba(232,117,106,0.4);animation:stop-pulse 0.6s ease-in-out infinite alternate;}
+@keyframes stop-pulse{0%{transform:scale(1);}100%{transform:scale(1.04);}}
+
+/* NOTES */
+.notes-error-row{background:var(--cream);border-radius:14px;padding:14px 16px;margin-bottom:10px;box-shadow:0 3px 12px rgba(0,0,0,0.12);}
+.notes-error-word{font-family:'Fredoka',sans-serif;font-size:1.4rem;color:var(--charcoal);display:block;margin-bottom:8px;}
+.notes-type-btns{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;}
+.notes-type-btn{padding:5px 12px;border-radius:20px;border:2px solid transparent;font-family:'Fredoka',sans-serif;font-size:0.85rem;font-weight:600;cursor:pointer;transition:all 0.15s;background:rgba(0,0,0,0.05);color:var(--gray);}
+.notes-type-btn.cvc.active{background:rgba(232,117,106,0.2);color:var(--coral);border-color:var(--coral);}
+.notes-type-btn.other.active{background:rgba(107,191,181,0.2);color:var(--teal-dark);border-color:var(--teal);}
+
+/* RESULTS */
+.results-screen{max-width:620px;margin:0 auto;text-align:center;}
+.results-title{font-family:'Fredoka',sans-serif;font-size:2rem;color:white;margin-bottom:16px;}
+.wcpm-display{background:var(--cream);border-radius:20px;padding:22px;margin-bottom:14px;box-shadow:0 6px 24px rgba(0,0,0,0.2);}
+.wcpm-number{font-family:'Fredoka',sans-serif;font-size:4.5rem;font-weight:700;color:var(--teal-dark);line-height:1;}
+.wcpm-label{font-size:0.9rem;color:var(--gray);font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-top:4px;}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;}
+.stat-card{background:var(--cream);border-radius:14px;padding:14px 10px;box-shadow:0 4px 14px rgba(0,0,0,0.15);}
+.stat-card-num{font-family:'Fredoka',sans-serif;font-size:1.8rem;font-weight:700;color:var(--charcoal);}
+.stat-card-label{font-size:0.75rem;color:var(--gray);font-weight:600;}
+.stat-card.correct .stat-card-num{color:var(--teal-dark);}
+.stat-card.errors .stat-card-num{color:var(--coral);}
+.stat-card.coins .stat-card-num{color:var(--yellow-dark);}
+.error-analysis{background:var(--cream);border-radius:16px;padding:18px 20px;margin-bottom:14px;text-align:left;box-shadow:0 4px 14px rgba(0,0,0,0.15);}
+.error-analysis-title{font-family:'Fredoka',sans-serif;font-size:1rem;color:var(--teal-dark);margin-bottom:12px;}
+.error-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(0,0,0,0.06);font-size:0.9rem;}
+.error-row:last-child{border-bottom:none;}
+.error-word{font-family:'Fredoka',sans-serif;font-size:1rem;color:var(--charcoal);min-width:80px;}
+.error-family{padding:3px 10px;border-radius:20px;font-size:0.75rem;font-weight:700;background:rgba(107,191,181,0.15);color:var(--teal-dark);}
+.error-type-tag{padding:3px 10px;border-radius:20px;font-size:0.75rem;font-weight:700;}
+.error-type-tag.cvc{background:rgba(232,117,106,0.15);color:var(--coral);}
+.error-type-tag.other{background:rgba(107,191,181,0.15);color:var(--teal-dark);}
+.error-type-tag.unmarked{background:rgba(0,0,0,0.07);color:var(--gray);}
+.rocket-graph{background:rgba(0,0,0,0.3);border-radius:18px;padding:18px;margin-bottom:14px;position:relative;height:180px;overflow:hidden;border:1px solid rgba(255,255,255,0.07);}
+.rocket-graph-label{font-size:0.72rem;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,0.35);font-weight:700;}
+.rocket-track{position:absolute;left:50%;bottom:20px;top:40px;width:4px;background:rgba(255,255,255,0.08);border-radius:2px;transform:translateX(-50%);}
+.rocket-emoji{position:absolute;left:50%;transform:translateX(-50%);font-size:1.8rem;transition:bottom 1.5s cubic-bezier(0.34,1.56,0.64,1);}
+.aim-line{position:absolute;left:20px;right:20px;height:2px;border-top:2px dashed rgba(255,200,87,0.5);}
+.aim-label{position:absolute;right:24px;font-size:0.72rem;color:rgba(255,200,87,0.8);font-weight:700;transform:translateY(-12px);}
+.history-bars{position:absolute;bottom:20px;left:20px;right:20px;height:50px;display:flex;align-items:flex-end;gap:6px;}
+.history-bar{flex:1;background:var(--teal);border-radius:3px 3px 0 0;min-height:3px;opacity:0.6;transition:opacity 0.2s;}
+.history-bar:last-child{opacity:1;background:var(--coral);}
+
+/* FAMILY BREAKDOWN in results */
+.family-breakdown{background:var(--cream);border-radius:16px;padding:18px;margin-bottom:14px;text-align:left;box-shadow:0 4px 14px rgba(0,0,0,0.15);}
+.fb-title{font-family:'Fredoka',sans-serif;font-size:1rem;color:var(--teal-dark);margin-bottom:10px;}
+.fb-row{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+.fb-label{font-family:'Fredoka',sans-serif;font-size:0.9rem;min-width:70px;font-weight:700;}
+.fb-bar-bg{flex:1;height:12px;background:#eee;border-radius:6px;overflow:hidden;}
+.fb-bar-fill{height:100%;border-radius:6px;transition:width 1s ease;}
+.fb-count{font-size:0.82rem;color:var(--gray);font-weight:700;min-width:55px;text-align:right;}
+.share-box{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:12px 16px;font-size:0.82rem;color:rgba(255,255,255,0.6);text-align:left;margin-bottom:14px;cursor:pointer;font-family:monospace;}
+.share-box:hover{background:rgba(255,255,255,0.12);}
+.results-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.celebrate-overlay{position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:100;display:none;}
+.confetti-piece{position:absolute;width:10px;height:10px;border-radius:2px;animation:confetti-fall 1.5s ease-in forwards;}
+@keyframes confetti-fall{0%{transform:translateY(-20px) rotate(0deg);opacity:1;}100%{transform:translateY(100vh) rotate(720deg);opacity:0;}}
+
+/* GRAPH */
+.chart-container{background:#fff;border-radius:16px;padding:16px;box-shadow:0 4px 20px rgba(0,0,0,0.1);margin-bottom:20px;position:relative;height:380px;width:100%;}
+.graph-title{color:white;text-align:center;margin-bottom:16px;font-family:'Fredoka',sans-serif;font-size:1.7rem;}
+
+@media(max-width:600px){
+  .main-controls{gap:8px;}
+  .reading-word{font-size:clamp(1.8rem,7vw,3.5rem);}
+  .stats-grid{grid-template-columns:repeat(3,1fr);}
+}
+</style>
+</head>
+<body>
+<div class="app-wrapper">
+<div class="celebrate-overlay" id="celebrateOverlay"></div>
+
+<!-- PROFILE SCREEN -->
+<div class="screen active" id="profileScreen">
+  <div style="position:relative;text-align:center;">
+    <h1 class="app-title">🔤 Word Families Practice</h1>
+    <p class="app-subtitle">Smart &amp; Special Teaching</p>
+    <button class="settings-btn" onclick="showScreen('setupScreen')" title="Settings">⚙️</button>
+  </div>
+  <p style="text-align:center;color:rgba(255,255,255,0.55);margin-bottom:16px;font-weight:600;">Who's practicing today?</p>
+  <div class="profiles-grid" id="profilesGrid"></div>
+  <div id="newProfileForm" style="display:none;max-width:360px;margin:0 auto;" class="card">
+    <h3 style="font-family:'Fredoka',sans-serif;font-size:1.3rem;color:var(--charcoal);margin-bottom:14px;">New Student</h3>
+    <input class="form-input" type="text" id="newProfileName" placeholder="Student's first name..." maxlength="20">
+    <div style="display:flex;gap:10px;">
+      <button class="btn btn-primary" onclick="createProfile()" style="flex:1;">Create Profile</button>
+      <button class="btn btn-secondary" onclick="hideNewProfileForm()" style="color:var(--gray);border-color:#ddd;">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ACTIVITY SCREEN -->
+<div class="screen" id="activityScreen">
+  <div style="max-width:560px;margin:0 auto;">
+    <div class="screen-header">
+      <button class="back-btn" onclick="showScreen('profileScreen')">← Back</button>
+      <h2 id="activityStudentName">Choose Activity</h2>
+    </div>
+    <div onclick="showScreen('setupScreen')" style="background:var(--cream);border-radius:18px;padding:22px;display:flex;align-items:center;gap:18px;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 18px rgba(0,0,0,0.2);border:3px solid transparent;margin-bottom:14px;" onmouseover="this.style.borderColor='var(--teal)'" onmouseout="this.style.borderColor='transparent'">
+      <div style="font-size:2.8rem;flex-shrink:0;width:64px;text-align:center;">🚀</div>
+      <div style="flex:1;">
+        <div style="font-family:'Fredoka',sans-serif;font-size:1.4rem;font-weight:700;color:var(--charcoal);margin-bottom:4px;">Read the Words Fast</div>
+        <div style="font-size:0.88rem;color:var(--gray);line-height:1.4;">Practice word families by vowel group. Track fluency in 1 minute!</div>
+      </div>
+      <div style="font-size:1.4rem;color:var(--teal);font-weight:700;flex-shrink:0;">→</div>
+    </div>
+    <div onclick="showGraphScreen()" style="background:rgba(255,255,255,0.05);border-radius:18px;padding:22px;display:flex;align-items:center;gap:18px;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 18px rgba(0,0,0,0.2);border:3px solid rgba(255,255,255,0.1);margin-bottom:14px;">
+      <div style="font-size:2.8rem;flex-shrink:0;width:64px;text-align:center;">📊</div>
+      <div style="flex:1;">
+        <div style="font-family:'Fredoka',sans-serif;font-size:1.4rem;font-weight:700;color:white;margin-bottom:4px;">Performance Chart</div>
+        <div style="font-size:0.88rem;color:rgba(255,255,255,0.55);line-height:1.4;">View progress graphs and print reports.</div>
+      </div>
+      <div style="font-size:1.4rem;color:var(--teal);font-weight:700;flex-shrink:0;">→</div>
+    </div>
+  </div>
+</div>
+
+<!-- SETUP SCREEN -->
+<div class="screen" id="setupScreen">
+  <div class="setup-screen">
+    <div class="screen-header">
+      <button class="back-btn" onclick="goBackFromSetup()">← Back</button>
+      <h2>⚙️ Session Setup</h2>
+    </div>
+
+    <!-- Word Families Picker -->
+    <div class="card">
+      <div class="card-title">🔤 Word Families to Practice</div>
+
+      <!-- Short A -->
+      <div class="vowel-block vowel-block-a">
+        <div class="vowel-block-header">
+          <span class="vowel-block-title" style="color:#c53030;">🔴 Short A families</span>
+          <button class="sel-all-btn" onclick="selectAllVowel('a')">All A</button>
+          <button class="sel-all-btn" onclick="clearVowel('a')">None</button>
+        </div>
+        <div id="families-a"></div>
+      </div>
+      <!-- Short E -->
+      <div class="vowel-block vowel-block-e">
+        <div class="vowel-block-header">
+          <span class="vowel-block-title" style="color:#2b6cb0;">🔵 Short E families</span>
+          <button class="sel-all-btn" onclick="selectAllVowel('e')">All E</button>
+          <button class="sel-all-btn" onclick="clearVowel('e')">None</button>
+        </div>
+        <div id="families-e"></div>
+      </div>
+      <!-- Short I -->
+      <div class="vowel-block vowel-block-i">
+        <div class="vowel-block-header">
+          <span class="vowel-block-title" style="color:#276749;">🟢 Short I families</span>
+          <button class="sel-all-btn" onclick="selectAllVowel('i')">All I</button>
+          <button class="sel-all-btn" onclick="clearVowel('i')">None</button>
+        </div>
+        <div id="families-i"></div>
+      </div>
+      <!-- Short O -->
+      <div class="vowel-block vowel-block-o">
+        <div class="vowel-block-header">
+          <span class="vowel-block-title" style="color:#975a16;">🟠 Short O families</span>
+          <button class="sel-all-btn" onclick="selectAllVowel('o')">All O</button>
+          <button class="sel-all-btn" onclick="clearVowel('o')">None</button>
+        </div>
+        <div id="families-o"></div>
+      </div>
+      <!-- Short U -->
+      <div class="vowel-block vowel-block-u">
+        <div class="vowel-block-header">
+          <span class="vowel-block-title" style="color:#553c9a;">🟣 Short U families</span>
+          <button class="sel-all-btn" onclick="selectAllVowel('u')">All U</button>
+          <button class="sel-all-btn" onclick="clearVowel('u')">None</button>
+        </div>
+        <div id="families-u"></div>
+      </div>
+      <div class="clinical-note" style="margin-top:10px;">💡 Start with 1–2 families. Add more only after the student can read each family fluently in isolation.</div>
+    </div>
+
+    <!-- Level -->
+    <div class="card">
+      <div class="card-title">📋 Level</div>
+      <div class="toggle-group" id="levelGroup">
+        <button class="toggle-btn active" data-level="rimes" onclick="setLevel(this)">Level 1 — Rimes only</button>
+        <button class="toggle-btn" data-level="words" onclick="setLevel(this)">Level 2 — Words (grouped)</button>
+        <button class="toggle-btn" data-level="mixed" onclick="setLevel(this)">Level 3 — Words (mixed)</button>
+      </div>
+      <div id="levelNote" class="clinical-note" style="margin-top:10px;">💡 <strong>Rimes only:</strong> student reads just the rime pattern (e.g. <em>ab, ad, ag</em>). Great for introducing a new family before adding onset consonants.</div>
+    </div>
+
+    <!-- Aim -->
+    <div class="card">
+      <div class="card-title">🎯 Fluency Aim (WCPM)</div>
+      <div class="toggle-group" id="aimGroup">
+        <button class="toggle-btn" data-aim="30" onclick="setAim(this)">30</button>
+        <button class="toggle-btn" data-aim="40" onclick="setAim(this)">40</button>
+        <button class="toggle-btn" data-aim="50" onclick="setAim(this)">50</button>
+        <button class="toggle-btn active" data-aim="60" onclick="setAim(this)">60</button>
+        <button class="toggle-btn" data-aim="70" onclick="setAim(this)">70</button>
+        <button class="toggle-btn" data-aim="80" onclick="setAim(this)">80</button>
+        <button class="toggle-btn" data-aim="100" onclick="setAim(this)">100</button>
+      </div>
+      <div style="text-align:center;margin-top:10px;">
+        <span style="font-family:'Fredoka',sans-serif;font-size:1.1rem;color:var(--teal-dark);">Aim: <span id="aimDisplay">60</span> words correct per minute</span>
+      </div>
+    </div>
+
+    <!-- Options -->
+    <div class="card">
+      <div class="card-title">🔧 Options</div>
+      <div class="switch-row">
+        <div>
+          <div class="switch-label">Show family label during session</div>
+          <div class="switch-note">Display the word ending (e.g. "-at") above each word — always shown in Rimes level</div>
+        </div>
+        <label class="toggle-switch"><input type="checkbox" id="showFamilyToggle" checked><span class="toggle-track"></span></label>
+      </div>
+      <div class="switch-row">
+        <div>
+          <div class="switch-label">Include nonsense words</div>
+          <div class="switch-note">Add pseudowords for decoding-only practice</div>
+        </div>
+        <label class="toggle-switch"><input type="checkbox" id="nonsenseToggle"><span class="toggle-track"></span></label>
+      </div>
+    </div>
+
+    <div style="text-align:center;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+      <button class="btn btn-coral" onclick="startSession()" style="font-size:1.2rem;padding:16px 40px;">🚀 Start Session</button>
+      <button class="btn btn-secondary" onclick="printWordList()" style="font-size:1rem;padding:12px 24px;border:2px solid rgba(255,255,255,0.3);">🖨️ Print Word List</button>
+    </div>
+  </div>
+</div>
+
+<!-- SESSION SCREEN -->
+<div class="screen" id="sessionScreen">
+  <div class="session-stats">
+    <div class="stat-badge timer" id="timerBadge">1:00</div>
+    <div class="stat-badge coins">🪙 <span id="sessionCoins">0</span></div>
+    <div class="stat-badge">✅ <span id="sessionCorrect">0</span></div>
+    <div class="stat-badge">✗ <span id="sessionErrors">0</span></div>
+    <div class="stat-badge" id="familyStatBadge" style="background:rgba(159,122,234,0.2);color:#D6BCFA;"></div>
+    <div class="stat-badge" id="levelBadge" style="background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.5);font-size:0.78rem;"></div>
+  </div>
+
+  <div class="reading-card">
+    <div class="word-counter" id="wordCounter">Item 1</div>
+    <div class="family-tag" id="familyTagDisplay" style="display:none;"></div>
+    <div class="reading-word" id="currentWordDisplay">Ready!</div>
+  </div>
+
+  <div class="adult-panel">
+    <div class="panel-label">👩‍🏫 Adult Controls — Student does not see this area</div>
+    <div class="stop-sign" id="stopSign"><div class="stop-sign-inner">🛑 STOP</div></div>
+    <div class="main-controls">
+      <button class="btn-wrong" onclick="markError()">
+        <span class="btn-icon">✗</span>
+        <span style="font-size:0.85rem;">Wrong</span>
+      </button>
+      <button class="btn-next" onclick="advanceWord()">
+        <span class="btn-icon">→</span>
+        <span>Next Word</span>
+      </button>
+      <button class="btn-undo-small" onclick="undoLast()">
+        <span class="btn-icon" style="font-size:1.2rem;">↩</span>
+        <span>Undo</span>
+      </button>
+    </div>
+    <button class="btn-end-trial" onclick="endSession()">⏹ End Trial Early</button>
+  </div>
+</div>
+
+<!-- POST-SESSION NOTES SCREEN -->
+<div class="screen" id="notesScreen">
+  <div style="max-width:620px;margin:0 auto;">
+    <div class="screen-header"><h2>📝 Error Notes</h2></div>
+    <div class="card" style="margin-bottom:14px;">
+      <div style="font-family:'Fredoka',sans-serif;font-size:1rem;color:var(--teal-dark);margin-bottom:4px;">Session summary</div>
+      <div id="notesSessionSummary" style="font-size:0.9rem;color:var(--gray);font-weight:600;"></div>
+      <div style="font-size:0.8rem;color:var(--gray);margin-top:8px;font-style:italic;">Classify each error word (optional). Tap Continue to skip.</div>
+    </div>
+    <div id="notesErrorList" style="margin-bottom:16px;"></div>
+    <div style="text-align:center;">
+      <button class="btn btn-primary" id="notesContinueBtn" style="font-size:1.1rem;padding:14px 36px;">View Results →</button>
+    </div>
+  </div>
+</div>
+
+<!-- RESULTS SCREEN -->
+<div class="screen" id="resultsScreen">
+  <div class="results-screen">
+    <div class="results-title" id="resultsTitle">🎉 Great Job!</div>
+    <div class="wcpm-display">
+      <div class="wcpm-number" id="wcpmNumber">--</div>
+      <div class="wcpm-label">Words Correct Per Minute</div>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card correct"><div class="stat-card-num" id="resultCorrect">0</div><div class="stat-card-label">✅ Correct</div></div>
+      <div class="stat-card errors"><div class="stat-card-num" id="resultErrors">0</div><div class="stat-card-label">✗ Errors</div></div>
+      <div class="stat-card coins"><div class="stat-card-num" id="resultCoins">0</div><div class="stat-card-label">🪙 Coins</div></div>
+    </div>
+    <div id="familyBreakdown" class="family-breakdown" style="display:none;">
+      <div class="fb-title">📊 Family Breakdown</div>
+      <div id="fbRows"></div>
+    </div>
+    <div id="errorAnalysis" style="display:none;" class="error-analysis">
+      <div class="error-analysis-title">📊 Error Analysis</div>
+      <div id="errorAnalysisRows"></div>
+    </div>
+    <div class="rocket-graph" id="rocketGraph">
+      <div class="rocket-graph-label">WCPM Progress</div>
+      <div class="rocket-track"></div>
+      <div class="rocket-emoji" id="rocketEmoji" style="bottom:20px;">🚀</div>
+      <div class="aim-line" id="aimLine"></div>
+      <div class="aim-label" id="aimLabel"></div>
+      <div class="history-bars" id="historyBars"></div>
+    </div>
+    <div class="share-box" id="shareBox" onclick="copyShare()" title="Tap to copy">Loading...</div>
+    <div class="results-actions">
+      <button class="btn btn-primary" onclick="startSession()">🔄 Practice Again</button>
+      <button class="btn btn-secondary" onclick="showScreen('setupScreen')">⚙️ Settings</button>
+      <button class="btn btn-secondary" onclick="showScreen('profileScreen')">🏠 Home</button>
+    </div>
+  </div>
+</div>
+
+<!-- GRAPH SCREEN -->
+<div class="screen" id="graphScreen">
+  <div style="max-width:800px;margin:0 auto;width:100%;">
+    <div class="screen-header" style="justify-content:space-between;">
+      <button class="back-btn" onclick="showScreen('activityScreen')">← Back</button>
+      <button class="btn btn-secondary" onclick="printGraph()" style="padding:8px 16px;font-size:0.95rem;border:2px solid rgba(255,255,255,0.3);">🖨️ Print</button>
+    </div>
+    <h2 id="graphStudentName" class="graph-title">Performance Chart</h2>
+    <div class="chart-container"><canvas id="performanceChart"></canvas></div>
+  </div>
+</div>
+
+</div><!-- end app-wrapper -->
+
+<script>
+// ===== WORD FAMILY DATA =====
+const FAMILIES = {
+  a: {
+    ab: ['cab','dab','jab','lab','nab','tab'],
+    ad: ['bad','dad','had','lad','mad','sad'],
+    ag: ['bag','gag','lag','nag','rag','tag','wag'],
+    al: ['pal','gal'],
+    am: ['dam','ham','jam','ram','yam'],
+    an: ['ban','can','fan','man','pan','ran','tan','van'],
+    ap: ['cap','gap','lap','map','nap','rap','sap','tap'],
+    as: ['gas','has'],
+    at: ['bat','cat','fat','hat','mat','pat','rat','sat','vat'],
+    ax: ['lax','max','tax','wax'],
+  },
+  e: {
+    eb: ['web'],
+    ed: ['bed','fed','led','red','wed'],
+    eg: ['beg','keg','leg','peg'],
+    em: ['gem','hem'],
+    en: ['den','hen','men','pen','ten'],
+    es: ['yes'],
+    et: ['bet','get','jet','let','met','net','pet','set','vet','wet','yet'],
+  },
+  i: {
+    ib: ['bib','fib','rib'],
+    id: ['bid','did','hid','kid','lid','rid'],
+    ig: ['big','dig','fig','gig','jig','pig','rig','wig'],
+    im: ['dim','him','rim'],
+    in: ['bin','fin','kin','pin','sin','tin','win'],
+    ip: ['dip','hip','lip','nip','rip','sip','tip','zip'],
+    is: ['his'],
+    it: ['bit','fit','hit','kit','lit','pit','sit','wit'],
+    ix: ['fix','mix','six'],
+  },
+  o: {
+    ob: ['bob','cob','gob','job','lob','mob','rob'],
+    od: ['cod','god','mod','nod','pod'],
+    og: ['bog','cog','dog','fog','hog','jog','log'],
+    om: ['mom'],
+    on: ['con','don','ton','son','won'],
+    op: ['cop','hop','mop','pop','top'],
+    ot: ['cot','dot','got','hot','jot','lot','not','pot','rot'],
+    ox: ['box','fox','pox'],
+  },
+  u: {
+    ub: ['cub','hub','pub','rub','sub','tub'],
+    ud: ['bud','dud','mud'],
+    ug: ['bug','dug','hug','jug','mug','rug','tug'],
+    um: ['bum','gum','hum','rum','sum'],
+    un: ['bun','fun','gun','nun','pun','run','sun'],
+    up: ['cup','pup'],
+    us: ['bus'],
+    ut: ['but','cut','gut','hut','jut','nut','rut'],
+  }
+};
+
+const NONSENSE_WORDS = {
+  a: {
+    ab:['zab','wab','fab'],ad:['vad','zad','fad'],ag:['zag','wag2','mab'],
+    al:['zal','wal'],am:['zam','wam'],an:['zan','wan2'],
+    ap:['zap','wap'],as:['zas','was2'],at:['zat','wat'],ax:['zax','wax2']
+  },
+  e: {
+    eb:['zeb','wob'],ed:['zed','wred'],eg:['zeg','weg'],
+    em:['zem','wem'],en:['zen','wen'],es:['zes','wes'],et:['zet','wet2']
+  },
+  i: {
+    ib:['zib','wib'],id:['zid','wid'],ig:['zig','wig2'],
+    im:['zim','wim'],in:['zin','win2'],ip:['zip2','wip'],
+    is:['zis','wis'],it:['zit','wit2'],ix:['zix','wix']
+  },
+  o: {
+    ob:['zob','wob2'],od:['zod','wod'],og:['zog','wog'],
+    om:['zom','wom'],on:['zon','won2'],op:['zop','wop'],
+    ot:['zot','wot'],ox:['zox','wox']
+  },
+  u: {
+    ub:['zub','wub'],ud:['zud','wud'],ug:['zug','wug'],
+    um:['zum','wum'],un:['zun','wun'],up:['zup','wup'],
+    us:['zus','wus'],ut:['zut','wut']
+  }
+};
+
+// ===== STATE =====
+let state = {
+  currentProfile: null,
+  fromActivity: false,
+  settings: {
+    selectedFamilies: { a:['at','an','ap'], e:['et','en'], i:['it','in'], o:['ot','op'], u:['ut','un'] },
+    level: 'words',
+    aim: 60,
+    showFamily: true,
+    nonsense: false
+  },
+  session: {
+    wordList: [], familyList: [],
+    currentIndex: 0, wordStatus: [],
+    errorTypes: {}, startTime: null, endTime: null,
+    timerInterval: null, timerRemaining: 60,
+    coins: 0, streak: 0
+  }
+};
+
+// ===== INIT UI =====
+function initFamilyChips() {
+  ['a','e','i','o','u'].forEach(v => {
+    const container = document.getElementById('families-'+v);
+    container.innerHTML = '';
+    Object.keys(FAMILIES[v]).forEach(fam => {
+      const words = FAMILIES[v][fam];
+      const chip = document.createElement('button');
+      chip.className = 'family-chip';
+      chip.dataset.vowel = v;
+      chip.dataset.family = fam;
+      const sel = state.settings.selectedFamilies[v] || [];
+      if (sel.includes(fam)) chip.classList.add('sel-'+v);
+      chip.innerHTML = `<span>-${fam}</span><span style="font-size:0.75rem;opacity:0.7;margin-left:3px;">(${words.slice(0,3).join(', ')}…)</span>`;
+      chip.onclick = () => toggleFamily(v, fam, chip);
+      container.appendChild(chip);
+    });
+  });
+}
+
+function toggleFamily(v, fam, chip) {
+  const sel = state.settings.selectedFamilies[v] || [];
+  const idx = sel.indexOf(fam);
+  if (idx >= 0) sel.splice(idx, 1);
+  else sel.push(fam);
+  state.settings.selectedFamilies[v] = sel;
+  chip.classList.toggle('sel-'+v, sel.includes(fam));
+}
+
+function selectAllVowel(v) {
+  state.settings.selectedFamilies[v] = Object.keys(FAMILIES[v]);
+  document.querySelectorAll(`[data-vowel="${v}"]`).forEach(c => c.classList.add('sel-'+v));
+}
+function clearVowel(v) {
+  state.settings.selectedFamilies[v] = [];
+  document.querySelectorAll(`[data-vowel="${v}"]`).forEach(c => c.classList.remove('sel-'+v));
+}
+
+function setLevel(btn) {
+  document.querySelectorAll('[data-level]').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  state.settings.level = btn.dataset.level;
+  const notes = {
+    rimes: '💡 <strong>Rimes only:</strong> student reads just the rime pattern (e.g. <em>ab, ad, ag</em>). Great for introducing a new family before adding onset consonants.',
+    words: '💡 <strong>Words (grouped):</strong> full CVC words kept together by family so the pattern is visible.',
+    mixed: '💡 <strong>Words (mixed):</strong> full CVC words shuffled across all selected families for decontextualized practice.'
+  };
+  document.getElementById('levelNote').innerHTML = notes[btn.dataset.level] || '';
+}
+function setMode(btn) { setLevel(btn); }
+function setAim(btn) {
+  document.querySelectorAll('[data-aim]').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  state.settings.aim = parseInt(btn.dataset.aim);
+  document.getElementById('aimDisplay').textContent = btn.dataset.aim;
+}
+
+// ===== PROFILES =====
+function getProfile(name){ return JSON.parse(localStorage.getItem('wf_student_'+name)||'null'); }
+function saveProfile(p){ localStorage.setItem('wf_student_'+p.name,JSON.stringify(p)); const n=JSON.parse(localStorage.getItem('wf_profiles')||'[]'); if(!n.includes(p.name)){n.push(p.name);localStorage.setItem('wf_profiles',JSON.stringify(n));} }
+function deleteProfileData(name){ localStorage.removeItem('wf_student_'+name); const n=JSON.parse(localStorage.getItem('wf_profiles')||'[]'); localStorage.setItem('wf_profiles',JSON.stringify(n.filter(x=>x!==name))); }
+function newProfile(name){ return {name,createdAt:new Date().toISOString().split('T')[0],sessionHistory:[],totalCoins:0,currentStreak:0}; }
+
+function renderProfiles() {
+  const names = JSON.parse(localStorage.getItem('wf_profiles')||'[]');
+  const grid = document.getElementById('profilesGrid');
+  grid.innerHTML = '';
+  names.forEach(name => {
+    const p = getProfile(name); if (!p) return;
+    const card = document.createElement('div');
+    card.className = 'profile-card';
+    card.innerHTML = `<button class="profile-delete" onclick="event.stopPropagation();deleteProfile('${name}')">✕</button>
+      <div class="profile-name">${name}</div>
+      <div class="profile-meta">🪙 ${p.totalCoins||0} coins</div>`;
+    card.onclick = () => selectProfile(name);
+    grid.appendChild(card);
+  });
+  const add = document.createElement('div');
+  add.className = 'add-profile-card';
+  add.innerHTML = '<span style="font-size:2rem;color:var(--teal)">+</span><span>New Student</span>';
+  add.onclick = () => { document.getElementById('newProfileForm').style.display='block'; document.getElementById('newProfileName').focus(); };
+  grid.appendChild(add);
+}
+function hideNewProfileForm(){ document.getElementById('newProfileForm').style.display='none'; document.getElementById('newProfileName').value=''; }
+function createProfile(){
+  const name = document.getElementById('newProfileName').value.trim();
+  if (!name) return;
+  if (getProfile(name)) { alert('A student named '+name+' already exists!'); return; }
+  saveProfile(newProfile(name)); hideNewProfileForm(); renderProfiles();
+}
+function deleteProfile(name){ if(!confirm('Delete '+name+"'s profile?")) return; deleteProfileData(name); renderProfiles(); }
+function selectProfile(name){
+  state.currentProfile = getProfile(name);
+  document.getElementById('activityStudentName').textContent = name+' — What are we working on today?';
+  state.fromActivity = true;
+  showScreen('activityScreen');
+}
+function goBackFromSetup(){ showScreen(state.fromActivity ? 'activityScreen' : 'profileScreen'); }
+
+// ===== BUILD WORD LIST =====
+function shuffle(arr) {
+  for (let i = arr.length-1; i > 0; i--) {
+    const j = Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]] = [arr[j],arr[i]];
+  }
+  return arr;
+}
+
+function buildWordList() {
+  const { selectedFamilies, level, nonsense } = state.settings;
+  let wordList = [], familyList = [];
+
+  if (level === 'rimes') {
+    // Level 1: just the rime strings themselves e.g. "ab", "ad"
+    // Collect all selected rime strings, shuffle within vowel group, display grouped
+    ['a','e','i','o','u'].forEach(v => {
+      const fams = [...(selectedFamilies[v]||[])];
+      shuffle(fams);
+      fams.forEach(fam => {
+        wordList.push(fam);        // the rime itself, e.g. "at"
+        familyList.push('-'+fam);
+      });
+    });
+  } else if (level === 'mixed') {
+    // Level 3: all words shuffled together
+    let pairs = [];
+    ['a','e','i','o','u'].forEach(v => {
+      (selectedFamilies[v]||[]).forEach(fam => {
+        const words = [...(FAMILIES[v][fam]||[])];
+        if (nonsense && NONSENSE_WORDS[v]?.[fam]) words.push(...NONSENSE_WORDS[v][fam]);
+        words.forEach(w => pairs.push([w, '-'+fam]));
+      });
+    });
+    shuffle(pairs);
+    pairs.forEach(([w,f]) => { wordList.push(w); familyList.push(f); });
+  } else {
+    // Level 2: words grouped by family, shuffled within each group
+    ['a','e','i','o','u'].forEach(v => {
+      (selectedFamilies[v]||[]).forEach(fam => {
+        const words = [...(FAMILIES[v][fam]||[])];
+        if (nonsense && NONSENSE_WORDS[v]?.[fam]) words.push(...NONSENSE_WORDS[v][fam]);
+        shuffle(words);
+        words.forEach(w => { wordList.push(w); familyList.push('-'+fam); });
+      });
+    });
+  }
+
+  return { wordList, familyList };
+}
+
+// ===== SESSION =====
+function startSession() {
+  state.settings.showFamily = document.getElementById('showFamilyToggle').checked;
+  state.settings.nonsense = document.getElementById('nonsenseToggle').checked;
+  // sync level from active button
+  const activeLevel = document.querySelector('[data-level].active');
+  if (activeLevel) state.settings.level = activeLevel.dataset.level;
+  if (state.currentProfile) { state.currentProfile.settings = {...state.settings}; saveProfile(state.currentProfile); }
+
+  const { wordList, familyList } = buildWordList();
+  if (!wordList.length) { alert('Please select at least one word family to practice.'); return; }
+
+  state.session = {
+    wordList, familyList,
+    currentIndex:0, wordStatus:wordList.map(()=>'pending'),
+    errorTypes:{}, startTime:null, endTime:null,
+    timerInterval:null, timerRemaining:60, coins:0, streak:0
+  };
+
+  showScreen('sessionScreen');
+  document.getElementById('familyStatBadge').textContent = '';
+  const levelNames = {rimes:'Level 1 — Rimes', words:'Level 2 — Words', mixed:'Level 3 — Mixed'};
+  document.getElementById('levelBadge').textContent = levelNames[state.settings.level] || '';
+  updateWordDisplay();
+  startTimer();
+}
+
+function startTimer(){
+  state.session.startTime = Date.now();
+  state.session.timerRemaining = 60;
+  document.getElementById('stopSign').classList.remove('visible');
+  updateTimerDisplay();
+  state.session.timerInterval = setInterval(()=>{
+    state.session.timerRemaining--;
+    updateTimerDisplay();
+    if(state.session.timerRemaining<=0){
+      clearInterval(state.session.timerInterval);
+      document.getElementById('stopSign').classList.add('visible');
+      setTimeout(()=>endSession(),1200);
+    }
+  },1000);
+}
+function updateTimerDisplay(){
+  const r=state.session.timerRemaining;
+  document.getElementById('timerBadge').textContent=Math.floor(r/60)+':'+(r%60).toString().padStart(2,'0');
+}
+
+function getVowelFromFamily(fam){
+  // fam like "-at" => "a"
+  const f = fam.replace('-','');
+  for(const v of ['a','e','i','o','u']){
+    if(FAMILIES[v]?.[f]) return v;
+  }
+  return '';
+}
+
+function updateWordDisplay(){
+  const s = state.session;
+  const word = s.wordList[s.currentIndex];
+  const family = s.familyList[s.currentIndex];
+  if (!word) return;
+
+  const display = document.getElementById('currentWordDisplay');
+  display.style.opacity='0'; display.style.transform='scale(0.96)';
+
+  const tag = document.getElementById('familyTagDisplay');
+  const v = getVowelFromFamily(family);
+  const colors = {a:'family-tag-a',e:'family-tag-e',i:'family-tag-i',o:'family-tag-o',u:'family-tag-u'};
+
+  setTimeout(()=>{
+    const isRimeLevel = state.settings.level === 'rimes';
+    if (isRimeLevel) {
+      // Show the rime big, with a prefix dash for clarity
+      display.textContent = '-' + word;
+      display.style.fontSize = 'clamp(3rem, 12vw, 7rem)';
+      tag.style.display = 'inline-block';
+      tag.textContent = 'rime pattern';
+      tag.className = 'family-tag ' + (colors[v]||'');
+    } else {
+      display.textContent = word;
+      display.style.fontSize = '';
+      if(state.settings.showFamily){
+        tag.style.display='inline-block';
+        tag.textContent = family;
+        tag.className = 'family-tag ' + (colors[v]||'');
+      } else { tag.style.display='none'; }
+    }
+    display.style.opacity='1'; display.style.transform='scale(1)';
+  },150);
+
+  document.getElementById('wordCounter').textContent='Item '+(s.currentIndex+1)+' of '+s.wordList.length;
+  document.getElementById('familyStatBadge').textContent = family;
+  updateSessionStats();
+}
+
+function updateSessionStats(){
+  const s=state.session;
+  const correct=s.wordStatus.filter(st=>st==='correct').length;
+  const errors=s.wordStatus.filter(st=>st==='error').length;
+  document.getElementById('sessionCoins').textContent=s.coins;
+  document.getElementById('sessionCorrect').textContent=correct;
+  document.getElementById('sessionErrors').textContent=errors;
+}
+
+function advanceWord(){
+  const s=state.session;
+  if(s.wordStatus[s.currentIndex]==='pending'){
+    s.wordStatus[s.currentIndex]='correct';
+    s.streak++; s.coins++;
+    if(s.streak===5) s.coins+=3;
+    if(s.streak===10) s.coins+=5;
+  }
+  moveNext();
+}
+function markError(){
+  const s=state.session;
+  s.wordStatus[s.currentIndex]='error';
+  s.errorTypes[s.wordList[s.currentIndex]] = { type:'unmarked', family: s.familyList[s.currentIndex] };
+  s.streak=0;
+  updateSessionStats();
+  moveNext();
+}
+function moveNext(){
+  const s=state.session;
+  if(s.currentIndex<s.wordList.length-1){ s.currentIndex++; updateWordDisplay(); }
+  else endSession();
+}
+function undoLast(){
+  const s=state.session;
+  if(s.currentIndex===0) return;
+  s.currentIndex--;
+  const prev=s.wordStatus[s.currentIndex];
+  if(prev==='correct'){s.coins=Math.max(0,s.coins-1);s.streak=Math.max(0,s.streak-1);}
+  if(prev==='error') delete s.errorTypes[s.wordList[s.currentIndex]];
+  s.wordStatus[s.currentIndex]='pending';
+  updateWordDisplay(); updateSessionStats();
+}
+
+function endSession(){
+  clearInterval(state.session.timerInterval);
+  state.session.endTime = Date.now();
+  const s = state.session;
+  const elapsed = (s.endTime-s.startTime)/1000/60;
+  const correct = s.wordStatus.filter(st=>st==='correct').length;
+  const errors = s.wordStatus.filter(st=>st==='error').length;
+  const wcpm = elapsed>0 ? Math.round(correct/elapsed) : 0;
+  const hitAim = wcpm>=state.settings.aim;
+
+  if(state.currentProfile){
+    const p=state.currentProfile;
+    p.totalCoins=(p.totalCoins||0)+s.coins;
+    p.sessionHistory=p.sessionHistory||[];
+    p.sessionHistory.push({date:new Date().toISOString().split('T')[0],wcpm,correct,errors,coinsEarned:s.coins,hitAim,errorTypes:{...s.errorTypes}});
+    if(p.sessionHistory.length>30) p.sessionHistory=p.sessionHistory.slice(-30);
+    saveProfile(p);
+  }
+
+  const errorWords = Object.keys(s.errorTypes);
+  if(errorWords.length>0){ showPostSessionNotes(correct,errors,wcpm,s.coins,s.errorTypes,hitAim); }
+  else { showResults(correct,errors,wcpm,s.coins,s.errorTypes,hitAim); }
+}
+
+// ===== POST SESSION NOTES =====
+function showPostSessionNotes(correct,errors,wcpm,coins,errorTypes,hitAim){
+  showScreen('notesScreen');
+  document.getElementById('notesSessionSummary').textContent=`${correct} correct · ${errors} error${errors===1?'':'s'} · ${wcpm} WCPM`;
+  const list=document.getElementById('notesErrorList'); list.innerHTML='';
+  Object.keys(errorTypes).forEach(word=>{
+    const info=errorTypes[word];
+    const div=document.createElement('div'); div.className='notes-error-row';
+    div.innerHTML=`<span class="notes-error-word">${word} <span style="font-size:0.85rem;color:var(--gray);font-weight:400;">${info.family||''}</span></span>
+      <div class="notes-type-btns">
+        <button class="notes-type-btn cvc" onclick="setNoteType('${word}','cvc',this)">🔤 Decoding error</button>
+        <button class="notes-type-btn other" onclick="setNoteType('${word}','other',this)">💭 Other</button>
+      </div>`;
+    list.appendChild(div);
+  });
+  document.getElementById('notesContinueBtn').onclick=()=>showResults(correct,errors,wcpm,coins,state.session.errorTypes,hitAim);
+}
+function setNoteType(word,type,btn){
+  if(state.session.errorTypes[word]) state.session.errorTypes[word].type=type;
+  btn.closest('.notes-error-row').querySelectorAll('.notes-type-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ===== RESULTS =====
+function showResults(correct,errors,wcpm,coins,errorTypes,hitAim){
+  showScreen('resultsScreen');
+  const titles=wcpm>=state.settings.aim?'🚀 Aim Hit!':wcpm>=state.settings.aim*0.8?'⭐ Great Job!':wcpm>=state.settings.aim*0.6?'👍 Keep Going!':'🌱 Good Practice!';
+  document.getElementById('resultsTitle').textContent=titles;
+  document.getElementById('wcpmNumber').textContent=wcpm;
+  document.getElementById('resultCorrect').textContent=correct;
+  document.getElementById('resultErrors').textContent=errors;
+  document.getElementById('resultCoins').textContent=coins;
+
+  // Family breakdown
+  const s=state.session;
+  const familyCounts={};
+  s.wordStatus.forEach((st,i)=>{
+    const fam=s.familyList[i]||'?';
+    if(!familyCounts[fam]) familyCounts[fam]={correct:0,errors:0,total:0};
+    familyCounts[fam].total++;
+    if(st==='correct') familyCounts[fam].correct++;
+    if(st==='error') familyCounts[fam].errors++;
+  });
+  const famKeys=Object.keys(familyCounts);
+  const fbDiv=document.getElementById('familyBreakdown');
+  if(famKeys.length>0){
+    fbDiv.style.display='block';
+    const fbRows=document.getElementById('fbRows'); fbRows.innerHTML='';
+    const vowelColors={a:'#E53E3E',e:'#3182CE',i:'#38A169',o:'#D69E2E',u:'#805AD5'};
+    famKeys.forEach(fam=>{
+      const fc=familyCounts[fam];
+      const pct=fc.total>0?Math.round(fc.correct/fc.total*100):0;
+      const v=getVowelFromFamily(fam);
+      const color=vowelColors[v]||'#6BBFB5';
+      fbRows.innerHTML+=`<div class="fb-row">
+        <span class="fb-label" style="color:${color};">${fam}</span>
+        <div class="fb-bar-bg"><div class="fb-bar-fill" style="width:${pct}%;background:${color};"></div></div>
+        <span class="fb-count">${fc.correct}/${fc.total}</span>
+      </div>`;
+    });
+  } else { fbDiv.style.display='none'; }
+
+  // Error analysis
+  const errorList=Object.keys(errorTypes);
+  const analysisDiv=document.getElementById('errorAnalysis');
+  if(errorList.length>0){
+    analysisDiv.style.display='block';
+    const rows=document.getElementById('errorAnalysisRows'); rows.innerHTML='';
+    errorList.forEach(word=>{
+      const info=errorTypes[word];
+      const typeLabel={cvc:'Decoding error',other:'Other',unmarked:'Not noted'}[info?.type||'unmarked']||'Not noted';
+      const typeClass={cvc:'cvc',other:'other',unmarked:'unmarked'}[info?.type||'unmarked']||'unmarked';
+      rows.innerHTML+=`<div class="error-row">
+        <span class="error-word">${word}</span>
+        <span class="error-family">${info?.family||''}</span>
+        <span class="error-type-tag ${typeClass}">${typeLabel}</span>
+      </div>`;
+    });
+  } else { analysisDiv.style.display='none'; }
+
+  animateRocket(wcpm);
+  renderHistoryChart();
+
+  const name=state.currentProfile?.name||'Student';
+  document.getElementById('shareBox').textContent=`${name} — ${new Date().toLocaleDateString()} — Word Families — ${wcpm} WCPM — ${correct} correct, ${errors} errors — 🪙${coins} coins`;
+  if(hitAim) triggerConfetti();
+}
+
+function animateRocket(wcpm){
+  const aim=state.settings.aim;
+  const graph=document.getElementById('rocketGraph');
+  const h=graph.offsetHeight;
+  const pct=Math.min(wcpm/(aim*1.3),1);
+  const aimPct=Math.min(aim/(aim*1.3),1);
+  setTimeout(()=>{
+    document.getElementById('rocketEmoji').style.bottom=(20+pct*(h-60))+'px';
+    const aimBottom=20+aimPct*(h-60);
+    document.getElementById('aimLine').style.bottom=aimBottom+'px';
+    document.getElementById('aimLabel').style.bottom=aimBottom+'px';
+    document.getElementById('aimLabel').textContent='Aim: '+aim;
+  },400);
+}
+function renderHistoryChart(){
+  if(!state.currentProfile) return;
+  const history=(state.currentProfile.sessionHistory||[]).slice(-8);
+  const chart=document.getElementById('historyBars'); chart.innerHTML='';
+  if(history.length<2) return;
+  const maxW=Math.max(...history.map(s=>s.wcpm||0),state.settings.aim,1);
+  history.forEach((s,i)=>{
+    const bar=document.createElement('div'); bar.className='history-bar';
+    bar.style.height=Math.max((s.wcpm||0)/maxW*100,5)+'%';
+    if(i===history.length-1) bar.style.background='var(--coral)';
+    else if(s.hitAim) bar.style.background='var(--success)';
+    bar.title=s.date+': '+s.wcpm+' WCPM';
+    chart.appendChild(bar);
+  });
+}
+
+function copyShare(){
+  const text=document.getElementById('shareBox').textContent;
+  const box=document.getElementById('shareBox');
+  navigator.clipboard.writeText(text).then(()=>{box.textContent='✅ Copied!';setTimeout(()=>{box.textContent=text;},2000);}).catch(()=>{});
+}
+function triggerConfetti(){
+  const overlay=document.getElementById('celebrateOverlay');
+  overlay.style.display='block'; overlay.innerHTML='';
+  const colors=['#6BBFB5','#FFC857','#E8756A','#68D391','#F687B3'];
+  for(let i=0;i<35;i++){
+    const p=document.createElement('div'); p.className='confetti-piece';
+    p.style.left=Math.random()*100+'vw'; p.style.background=colors[Math.floor(Math.random()*colors.length)];
+    p.style.animationDelay=Math.random()*0.8+'s'; p.style.animationDuration=(1+Math.random())+'s';
+    overlay.appendChild(p);
+  }
+  setTimeout(()=>{overlay.style.display='none';},2500);
+}
+
+// ===== PRINT WORD LIST =====
+function printWordList(){
+  const { selectedFamilies, nonsense, level } = state.settings;
+  let html='';
+  const vowelColors={a:'#C53030',e:'#2B6CB0',i:'#276749',o:'#975A16',u:'#553C9A'};
+  const vowelNames={a:'Short A',e:'Short E',i:'Short I',o:'Short O',u:'Short U'};
+  ['a','e','i','o','u'].forEach(v=>{
+    const fams=selectedFamilies[v]||[];
+    if(!fams.length) return;
+    html+=`<div style="margin-bottom:20px;"><h2 style="color:${vowelColors[v]};font-family:sans-serif;margin-bottom:12px;">${vowelNames[v]}</h2>`;
+    if(level==='rimes'){
+      html+=`<div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px;">
+        ${fams.map(fam=>`<span style="font-family:serif;font-size:28px;font-weight:700;padding:8px 18px;border:2.5px solid ${vowelColors[v]};border-radius:10px;background:#fafafa;color:${vowelColors[v]};">-${fam}</span>`).join('')}
+      </div>`;
+    } else {
+      fams.forEach(fam=>{
+        const words=[...(FAMILIES[v][fam]||[])];
+        if(nonsense && NONSENSE_WORDS[v]?.[fam]) words.push(...NONSENSE_WORDS[v][fam]);
+        html+=`<div style="margin-bottom:14px;padding:12px;border:2px solid ${vowelColors[v]}20;border-radius:10px;">
+          <div style="font-family:sans-serif;font-weight:700;font-size:13px;color:${vowelColors[v]};margin-bottom:8px;">-${fam} family</div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;">
+            ${words.map(w=>`<span style="font-family:serif;font-size:20px;padding:5px 12px;border:1.5px solid ${vowelColors[v]}50;border-radius:8px;background:#fafafa;">${w}</span>`).join('')}
+          </div></div>`;
+      });
+    }
+    html+='</div>';
+  });
+  const name=state.currentProfile?.name||'';
+  const win=window.open('','_blank');
+  win.document.write(`<!DOCTYPE html><html><head><title>Word Families Practice</title><style>body{font-family:sans-serif;padding:28px 36px;color:#222;max-width:800px;margin:0 auto;}h1{font-size:20px;margin-bottom:4px;}@media print{body{padding:16px;}}</style></head><body><h1>🔤 Word Families Practice${name?' — '+name:''}</h1><p style="color:#666;font-size:12px;margin-bottom:20px;">${new Date().toLocaleDateString()}</p>${html}</body></html>`);
+  win.document.close(); win.focus(); setTimeout(()=>win.print(),400);
+}
+
+// ===== GRAPH =====
+let chartInstance=null;
+function showGraphScreen(){
+  if(!state.currentProfile) return;
+  document.getElementById('graphStudentName').textContent=state.currentProfile.name+"'s Performance Chart";
+  const history=state.currentProfile.sessionHistory||[];
+  const labels=history.map(s=>{const p=s.date.split('-');return p.length===3?p[1]+'/'+p[2]:s.date;});
+  const wcpmData=history.map(s=>s.wcpm||null);
+  const errorData=history.map(s=>s.errors===0?0.5:s.errors);
+  const ctx=document.getElementById('performanceChart').getContext('2d');
+  if(chartInstance) chartInstance.destroy();
+  chartInstance=new Chart(ctx,{type:'line',data:{labels,datasets:[
+    {label:'WCPM',data:wcpmData,borderColor:'#3182ce',backgroundColor:'#3182ce',borderWidth:2,pointRadius:4,tension:0.1,spanGaps:true},
+    {label:'Errors',data:errorData,borderColor:'#e53e3e',backgroundColor:'#e53e3e',borderWidth:2,pointRadius:4,tension:0.1,spanGaps:true}
+  ]},options:{responsive:true,maintainAspectRatio:false,scales:{y:{type:'logarithmic',min:0.5,max:200,ticks:{callback:v=>[1,5,10,50,100,200].includes(v)?v:null,font:{size:13}}},x:{grid:{color:'rgba(0,0,0,0.1)'}}},plugins:{legend:{display:true,position:'top',labels:{font:{size:13}}}}}});
+  showScreen('graphScreen');
+}
+function printGraph(){
+  if(!chartInstance) return;
+  const img=chartInstance.toBase64Image();
+  const name=state.currentProfile?.name||'';
+  const win=window.open('','_blank');
+  win.document.write(`<!DOCTYPE html><html><head><title>Chart — ${name}</title><style>body{font-family:sans-serif;padding:28px;text-align:center;}img{max-width:100%;border:1px solid #ddd;border-radius:8px;padding:10px;}</style></head><body><h1>📈 ${name}'s Performance Chart</h1><p style="color:#666;">${new Date().toLocaleDateString()}</p><img src="${img}"/></body></html>`);
+  win.document.close(); win.focus(); setTimeout(()=>win.print(),600);
+}
+
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if(id==='profileScreen') renderProfiles();
+}
+
+// ===== INIT =====
+initFamilyChips();
+renderProfiles();
+
+// Keyboard shortcuts
+document.addEventListener('keydown',e=>{
+  if(!document.getElementById('sessionScreen').classList.contains('active')) return;
+  if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();advanceWord();}
+  if(e.key==='x'||e.key==='X'){e.preventDefault();markError();}
+  if(e.key==='z'||e.key==='Z'){e.preventDefault();undoLast();}
+});
+document.getElementById('newProfileName').addEventListener('keydown',e=>{if(e.key==='Enter') createProfile();});
+</script>
+</body>
+</html>
